@@ -1,0 +1,9 @@
+#!/bin/bash
+# Place this in your project/.git/hooks/pre-commit file
+
+exec 1>&2
+for file in $(git diff --cached --name-only --diff-filter=ACMR) ; do
+   if file ${file} | grep "Bourne-Again shell script" ; then
+      bash -n ${file} || exit $?
+   fi
+done
